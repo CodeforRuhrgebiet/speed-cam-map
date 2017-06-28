@@ -5,6 +5,10 @@
 	margin: 0;
 	padding: 0;
 }
+::-moz-selection {
+	background-color: black;
+	color: white;
+}
 ::selection {
 	background-color: black;
 	color: white;
@@ -32,9 +36,13 @@ html {
 	padding-top: 50px;
 }
 header {
+	display: -webkit-flex;
 	display: flex;
+	-webkit-flex-flow: row wrap;
 	flex-flow: row wrap;
+	-webkit-justify-content: space-between;
 	justify-content: space-between;
+	-webkit-align-items: center;
 	align-items: center;
 	position: absolute;
 	top: 0;
@@ -46,6 +54,7 @@ header {
 	width:100%;
 }
 header .appName {
+	-webkit-flex-grow: 1;
 	flex-grow: 1;
 }
 h1 {
