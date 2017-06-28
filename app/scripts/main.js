@@ -23,7 +23,24 @@ new L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
   attribution: 'Daten zu Geschwindigkeitskontrollen: <a href="http://www.use24.essen.de/Webportal/agency/default.aspx?PortalObjectId=18399&OrganizationUnitId=1426">Ordnungsamt der Stadt Essen</a>. Kartendaten © <a href="http://www.openstreetmap.org">OpenStreetMap contributors</a>'
 }).addTo(map)
 
-initDatePicker(document.getElementById('js-date-picker'))
+loadIndex((dates) => {
+  flatpickr(elem, {
+    defaultDate: 'today',
+    dateFormat: 'd.m.Y',
+    enableTime: false,
+    locale: {
+      firstDayOfWeek: 1
+    },
+    enable: dates,
+    // load data for today
+    onReady: (selectedDates, dateStr, instance) => {
+      loadDataLayer(dateStr);
+    },
+    onChange: (selectedDates, dateStr, instance) => {
+      loadDataLayer(dateStr)
+    }
+  });
+});
 
 function addDataLayerToMap(map, data) {
 
@@ -42,50 +59,32 @@ function addDataLayerToMap(map, data) {
 	streetLayer.addTo(map)
 }
 
-function initDatePicker(elem) {
-
-  loadIndex((dates) => {
-    flatpickr(elem, {
-      defaultDate: 'today',
-      dateFormat: 'd.m.Y',
-      enableTime: false,
-      locale: {
-        firstDayOfWeek: 1
-      },
-      enable: dates,
-      // load data for today
-      onReady: (selectedDates, dateStr, instance) => {
-        loadDataLayer(dateStr);
-      },
-      onChange: (selectedDates, dateStr, instance) => {
-        loadDataLayer(dateStr)
-      }
-    });
-  });
-
-
-}
-
 function loadDataLayer(date) {
+
   const req = new XMLHttpRequest()
+
   req.onreadystatechange = () => {
     if (req.readyState == 4 && req.status == 200) {
       const data = JSON.parse(req.responseText)
       addDataLayerToMap(map, data)
     }
   }
+
   req.open("GET", './data/' + date + '.geojson', true)
   req.send()
 }
 
 function loadIndex(cb) {
+
   const req = new XMLHttpRequest()
+
   req.onreadystatechange = () => {
     if (req.readyState == 4 && req.status == 200) {
       const data = JSON.parse(req.responseText)
       cb(data)
     }
   }
+
   req.open("GET", './data/index.json', true)
   req.send()
 }
