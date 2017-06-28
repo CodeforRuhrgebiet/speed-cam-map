@@ -1,0 +1,62 @@
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+.group:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+body,
+html {
+	font-family: Arial, sans-serif;
+	height: 100%;
+}
+.map {
+	width: 100%;
+	height: 100%;
+}
+
+.map-application {
+	height: 100%;
+	padding-top: 50px;
+}
+
+header {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: .5em;
+	z-index: 9;
+	border-bottom: 1px solid #eee;
+	width:100%;
+}
+
+header .appName {
+	flex-grow: 1;
+}
+
+h1 {
+	margin: 0;
+	font-size: 1em;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+	background-color: #FF0000;
+	border-color: #FF0000;
+}
+
+.datePicker {
+	width: 7em;
+	padding: .5em;
+	border-radius: 0;
+	text-align: center;
+}
