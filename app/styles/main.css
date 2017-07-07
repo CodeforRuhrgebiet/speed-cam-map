@@ -81,3 +81,15 @@ h1 {
 		padding-top: 90px;
 	}
 }
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	color: white;
+	background-color: black;
+	font-size: 1rem;
+	box-shadow: none;
+	border-radius: 0;
+}
+.leaflet-container a.leaflet-popup-close-button {
+	color: white;
+}
