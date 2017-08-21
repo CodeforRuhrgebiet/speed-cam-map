@@ -5,6 +5,8 @@
 
 'use strict';
 
+const minDate = '26.06.2017';
+const maxDate = '25.08.2017';
 
 function addDataLayerToMap(map, data) {
 
@@ -44,23 +46,8 @@ function loadDataLayer(date) {
 }
 
 function dateToFileName(date) {
-  var date = date.split('.');
+  date = date.split('.');
   return date[2]+'-'+date[1]+'-'+date[0];
-}
-
-function loadIndex(cb) {
-
-  const req = new XMLHttpRequest();
-
-  req.onreadystatechange = () => {
-    if (req.readyState === 4 && req.status === 200) {
-      const data = JSON.parse(req.responseText);
-      cb(data);
-    }
-  };
-
-  req.open('GET', './data/index.json', true);
-  req.send();
 }
 
 // instance of current street layer
@@ -89,27 +76,32 @@ let baseLayer = new L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.pn
 });
 baseLayer.addTo(map);
 
-loadIndex((dates) => {
-  flatpickr('#js-date-picker', {
-    defaultDate: 'today',
-    dateFormat: 'd.m.Y',
-    enableTime: false,
-    locale: {
-      firstDayOfWeek: 1
-    },
-    enable: dates,
-    // load data for today
-    onReady: (selectedDates, dateStr, instance) => {
-      if (dateStr != '') {
-        loadDataLayer(dateStr);
-      }
-    },
-    onChange: (selectedDates, dateStr, instance) => {
-      if (dateStr != '') {
-        loadDataLayer(dateStr);
-      }
+flatpickr('#js-date-picker', {
+  defaultDate: 'today',
+  dateFormat: 'd.m.Y',
+  minDate: minDate,
+  maxDate: maxDate,
+  enableTime: false,
+  locale: {
+    firstDayOfWeek: 1
+  },
+  disable: [
+    function(date) {
+      // always disable Saturday and Sunday
+      return (date.getDay() === 6 || date.getDay() === 0);
     }
-  });
+  ],
+  // load data for today
+  onReady: (selectedDates, dateStr, instance) => {
+    if (dateStr !== '') {
+      loadDataLayer(dateStr);
+    }
+  },
+  onChange: (selectedDates, dateStr, instance) => {
+    if (dateStr !== '') {
+      loadDataLayer(dateStr);
+    }
+  }
 });
 
 }(window, document, L));

@@ -5,6 +5,8 @@
 
 'use strict';
 
+const minDate = '26.06.2017';
+const maxDate = '25.08.2017';
 
 function addDataLayerToMap(map, data) {
 
@@ -28,6 +30,8 @@ function addDataLayerToMap(map, data) {
 
 function loadDataLayer(date) {
 
+  var fileName = dateToFileName(date);
+
   const req = new XMLHttpRequest();
 
   req.onreadystatechange = () => {
@@ -37,23 +41,13 @@ function loadDataLayer(date) {
     }
   };
 
-  req.open('GET', './data/' + date + '.geojson', true);
+  req.open('GET', './data/' + fileName + '.geojson', true);
   req.send();
 }
 
-function loadIndex(cb) {
-
-  const req = new XMLHttpRequest();
-
-  req.onreadystatechange = () => {
-    if (req.readyState === 4 && req.status === 200) {
-      const data = JSON.parse(req.responseText);
-      cb(data);
-    }
-  };
-
-  req.open('GET', './data/index.json', true);
-  req.send();
+function dateToFileName(date) {
+  date = date.split('.');
+  return date[2]+'-'+date[1]+'-'+date[0];
 }
 
 // instance of current street layer
@@ -82,23 +76,32 @@ let baseLayer = new L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.pn
 });
 baseLayer.addTo(map);
 
-loadIndex((dates) => {
-  flatpickr('#js-date-picker', {
-    defaultDate: 'today',
-    dateFormat: 'd.m.Y',
-    enableTime: false,
-    locale: {
-      firstDayOfWeek: 1
-    },
-    enable: dates,
-    // load data for today
-    onReady: (selectedDates, dateStr, instance) => {
-      loadDataLayer(dateStr);
-    },
-    onChange: (selectedDates, dateStr, instance) => {
+flatpickr('#js-date-picker', {
+  defaultDate: 'today',
+  dateFormat: 'd.m.Y',
+  minDate: minDate,
+  maxDate: maxDate,
+  enableTime: false,
+  locale: {
+    firstDayOfWeek: 1
+  },
+  disable: [
+    function(date) {
+      // always disable Saturday and Sunday
+      return (date.getDay() === 6 || date.getDay() === 0);
+    }
+  ],
+  // load data for today
+  onReady: (selectedDates, dateStr, instance) => {
+    if (dateStr !== '') {
       loadDataLayer(dateStr);
     }
-  });
+  },
+  onChange: (selectedDates, dateStr, instance) => {
+    if (dateStr !== '') {
+      loadDataLayer(dateStr);
+    }
+  }
 });
 
 }(window, document, L));

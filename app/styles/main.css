@@ -93,3 +93,7 @@ h1 {
 .leaflet-container a.leaflet-popup-close-button {
 	color: white;
 }
+.leaflet-container .leaflet-control-attribution {
+	padding: 6px;
+	background-color: rgba(255, 255, 255, .95);
+}
