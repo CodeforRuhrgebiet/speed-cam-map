@@ -119,10 +119,47 @@ h1 {
 	box-shadow: none;
 	border-radius: 0;
 }
+
 .leaflet-container a.leaflet-popup-close-button {
 	color: white;
 }
+
 .leaflet-container .leaflet-control-attribution {
 	padding: 6px;
 	background-color: rgba(255, 255, 255, .95);
 }
+
+.input-group {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+}
+
+.btn-flat,
+.datePicker {
+	border: 1px solid black;
+	color: black;
+	background-color: transparent;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.btn-flat {
+	width: 2rem;
+	font-size: .5rem;
+}
+
+.btn-flat:hover,
+.btn-flat:focus {
+	background-color: black;
+	color: white;
+	outline: 0;
+}
+
+.datePicker {
+	border-left: 0;
+	border-right: 0;
+}
+
+.loading {}

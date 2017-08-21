@@ -79,6 +79,34 @@ function dateToFileName(date) {
   return date[2]+'-'+date[1]+'-'+date[0];
 }
 
+function checkDate(dateObj) {
+  const day = dateObj.getDay();
+  if (day === 6 || day === 0) return false;
+
+  return true;
+}
+
+function showInfoLayer() {
+  let height = null;
+
+  $infolayer.classList.remove('is-hidden');
+  height = $infolayer.getBoundingClientRect().height;
+  $infolayer.style.height = 0;
+
+  window.setTimeout(function() {
+    $infolayer.style.height = height + 'px';
+  }, 20);
+}
+
+function hideInfoLayer() {
+  $infolayer.style.height = 0;
+
+  window.setTimeout(function() {
+    $infolayer.classList.add('is-hidden');
+    $infolayer.style.height = null;
+  }, 500);
+}
+
 // instance of current street layer
 let streetLayer = null;
 
@@ -105,32 +133,57 @@ let baseLayer = new L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.pn
 });
 baseLayer.addTo(map);
 
-flatpickr('#js-date-picker', {
-  defaultDate: 'today',
-  dateFormat: 'd.m.Y',
-  minDate: minDate,
-  maxDate: maxDate,
-  enableTime: false,
-  locale: {
-    firstDayOfWeek: 1
-  },
-  disable: [
-    function(date) {
-      // always disable Saturday and Sunday
-      return (date.getDay() === 6 || date.getDay() === 0);
+  let datePicker = flatpickr('#js-date-picker', {
+    defaultDate: 'today',
+    dateFormat: 'd.m.Y',
+    minDate: minDate,
+    maxDate: maxDate,
+    enableTime: false,
+    locale: {
+      firstDayOfWeek: 1
+    },
+    disable: [
+      function(date) {
+        // always disable Saturday and Sunday
+        return (date.getDay() === 6 || date.getDay() === 0);
+      }
+    ],
+    // load data for today
+    onReady: (selectedDates, dateStr, instance) => {
+      if (dateStr !== '') {
+        if (checkDate(instance.parseDate(dateStr))) {
+          loadDataLayer(dateStr);
+        }
+        else {
+          showInfoLayer();
+        }
+      }
+    },
+    onChange: (selectedDates, dateStr, instance) => {
+      if (dateStr !== '') {
+        if (checkDate(instance.parseDate(dateStr))) {
+          loadDataLayer(dateStr);
+          hideInfoLayer();
+        }
+        else {
+          showInfoLayer();
+          map.removeLayer(streetLayer);
+        }
+      }
     }
-  ],
-  // load data for today
-  onReady: (selectedDates, dateStr, instance) => {
-    if (dateStr !== '') {
-      loadDataLayer(dateStr);
-    }
-  },
-  onChange: (selectedDates, dateStr, instance) => {
-    if (dateStr !== '') {
-      loadDataLayer(dateStr);
-    }
-  }
-});
+  });
+
+  document.getElementById('js-prev-date').addEventListener('click', (e) => {
+    // calculate previous day
+    let newDate = '';
+    datePicker.setDate(newDate, true);
+  });
+  document.getElementById('js-next-date').addEventListener('click', (e) => {
+    // calculate next day
+    let newDate = '';
+    datePicker.setDate(newDate, true);
+  });
+
+  const $infolayer = document.querySelector('.js-infolayer');
 
 }(window, document, L));
