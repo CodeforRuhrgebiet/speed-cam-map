@@ -28,6 +28,8 @@ function addDataLayerToMap(map, data) {
 
 function loadDataLayer(date) {
 
+  var fileName = dateToFileName(date);
+
   const req = new XMLHttpRequest();
 
   req.onreadystatechange = () => {
@@ -37,8 +39,13 @@ function loadDataLayer(date) {
     }
   };
 
-  req.open('GET', './data/' + date + '.geojson', true);
+  req.open('GET', './data/' + fileName + '.geojson', true);
   req.send();
+}
+
+function dateToFileName(date) {
+  var date = date.split('.');
+  return date[2]+'-'+date[1]+'-'+date[0];
 }
 
 function loadIndex(cb) {
@@ -93,10 +100,14 @@ loadIndex((dates) => {
     enable: dates,
     // load data for today
     onReady: (selectedDates, dateStr, instance) => {
-      loadDataLayer(dateStr);
+      if (dateStr != '') {
+        loadDataLayer(dateStr);
+      }
     },
     onChange: (selectedDates, dateStr, instance) => {
-      loadDataLayer(dateStr);
+      if (dateStr != '') {
+        loadDataLayer(dateStr);
+      }
     }
   });
 });
