@@ -6,7 +6,7 @@
 'use strict';
 
 const minDate = '26.06.2017';
-const maxDate = '25.08.2017';
+const maxDate = '01.09.2017';
 
 function addDataLayerToMap(map, data) {
 
