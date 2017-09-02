@@ -17,11 +17,23 @@ function addDataLayerToMap(map, data) {
 
 	streetLayer = L.geoJson(data, {
     stroke: true,
-    color: '#FF0000',
+    color: '#ffdb66',
     opacity: 1,
     strokeWidth: 1,
     onEachFeature: (feature, layer) => {
-      layer.bindPopup(feature.properties.tags.name);
+      let content = feature.properties.tags.name;
+      let maxspeed = feature.properties.tags.maxspeed;
+      content += (maxspeed) ? ` (${maxspeed} km/h)` : '';
+
+      layer.bindPopup(content, {
+        sticky: true
+      });
+
+      layer.on('mouseover', (e) => {
+        layer.openPopup();
+      });
+
+      layer.on('mouseout', (e) => {});
      }
   });
 
