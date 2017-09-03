@@ -18,8 +18,8 @@
     "wiredep": "^1.4.4"
   },
   "dependencies": {
-    "flatpickr": "^3.0.6",
-    "leaflet": "~0.7.2",
+    "flatpickr": "^3.0.7",
+    "leaflet": "^1.2.0",
     "rome": "^2.1.22"
   }
 }
