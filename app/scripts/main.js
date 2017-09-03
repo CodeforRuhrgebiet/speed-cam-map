@@ -15,11 +15,17 @@ function addDataLayerToMap(map, data) {
     map.removeLayer(streetLayer);
   }
 
+  let styles = {
+    base: { color: '#ffdb66', weight: 3 },
+    mouseover: { color: '#ff0000' }
+  };
+
+  let selectedStreetSegments = [];
+
 	streetLayer = L.geoJson(data, {
     stroke: true,
-    color: '#ffdb66',
-    opacity: 1,
-    strokeWidth: 1,
+    color: styles.base.color,
+    weight: styles.base.color,
     onEachFeature: (feature, layer) => {
       let content = feature.properties.tags.name;
       let maxspeed = feature.properties.tags.maxspeed;
@@ -31,6 +37,17 @@ function addDataLayerToMap(map, data) {
 
       layer.on('mouseover', (e) => {
         layer.openPopup();
+        // reset selected segments, if any
+        if (selectedStreetSegments.length > 0) {
+          selectedStreetSegments.forEach((f) => f.setStyle(styles.base));
+        }
+        selectedStreetSegments = streetLayer.getLayers().filter((l) => {
+          return l.feature.properties.tags.name === e.target.feature.properties.tags.name;
+        });
+        selectedStreetSegments.forEach((l) => {
+          l.setStyle(styles.mouseover);
+        });
+
       });
 
       layer.on('mouseout', (e) => {});
@@ -89,7 +106,7 @@ let baseLayer = new L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.pn
 baseLayer.addTo(map);
 
 flatpickr('#js-date-picker', {
-  defaultDate: 'today',
+  defaultDate: '01.09.2017',
   dateFormat: 'd.m.Y',
   minDate: minDate,
   maxDate: maxDate,
