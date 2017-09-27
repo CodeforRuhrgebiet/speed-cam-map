@@ -63,8 +63,8 @@ h1 {
 }
 .flatpickr-day.selected,
 .flatpickr-day.selected:hover {
-	background-color: #FF0000;
-	border-color: #FF0000;
+	background-color: #FF335B;
+	border-color: #FF335B;
 }
 .datePicker {
 	width: 7em;

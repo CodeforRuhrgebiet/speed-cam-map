@@ -6,7 +6,7 @@
 'use strict';
 
 const minDate = '26.06.2017';
-const maxDate = '01.09.2017';
+const maxDate = '30.09.2017';
 
 function addDataLayerToMap(map, data) {
 
@@ -16,7 +16,7 @@ function addDataLayerToMap(map, data) {
   }
 
   let styles = {
-    base: { color: '#ffdb66', weight: 3 },
+    base: { color: '#ff335b', weight: 3 },
     mouseover: { color: '#ff0000' }
   };
 
@@ -25,7 +25,7 @@ function addDataLayerToMap(map, data) {
 	streetLayer = L.geoJson(data, {
     stroke: true,
     color: styles.base.color,
-    weight: styles.base.color,
+    weight: styles.base.weight,
     onEachFeature: (feature, layer) => {
       let content = feature.properties.tags.name;
       let maxspeed = feature.properties.tags.maxspeed;
@@ -106,7 +106,7 @@ let baseLayer = new L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.pn
 baseLayer.addTo(map);
 
 flatpickr('#js-date-picker', {
-  defaultDate: '01.09.2017',
+  defaultDate: 'today',
   dateFormat: 'd.m.Y',
   minDate: minDate,
   maxDate: maxDate,
