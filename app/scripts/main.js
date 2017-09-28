@@ -79,6 +79,34 @@ function dateToFileName(date) {
   return date[2]+'-'+date[1]+'-'+date[0];
 }
 
+function checkDate(dateObj) {
+  const day = dateObj.getDay();
+  if (day === 6 || day === 0) return false;
+  
+  return true;
+}
+
+function showInfoLayer() {
+  let height = null;
+
+  $infolayer.classList.remove('is-hidden');
+  height = $infolayer.getBoundingClientRect().height;
+  $infolayer.style.height = 0;
+
+  window.setTimeout(function() {
+    $infolayer.style.height = height + 'px';
+  }, 20);
+}
+
+function hideInfoLayer() {
+  $infolayer.style.height = 0;
+
+  window.setTimeout(function() {
+    $infolayer.classList.add('is-hidden');
+    $infolayer.style.height = null;
+  }, 500);
+}
+
 // instance of current street layer
 let streetLayer = null;
 
@@ -123,14 +151,28 @@ flatpickr('#js-date-picker', {
   // load data for today
   onReady: (selectedDates, dateStr, instance) => {
     if (dateStr !== '') {
-      loadDataLayer(dateStr);
+      if (checkDate(instance.parseDate(dateStr))) {
+        loadDataLayer(dateStr);
+      }
+      else {
+        showInfoLayer();
+      }
     }
   },
   onChange: (selectedDates, dateStr, instance) => {
     if (dateStr !== '') {
-      loadDataLayer(dateStr);
+      if (checkDate(instance.parseDate(dateStr))) {
+        loadDataLayer(dateStr);
+        hideInfoLayer();
+      }
+      else {
+        showInfoLayer();
+        map.removeLayer(streetLayer);
+      }
     }
   }
 });
+
+const $infolayer = document.querySelector('.js-infolayer');
 
 }(window, document, L));

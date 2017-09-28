@@ -34,7 +34,33 @@ html {
 .map-application {
 	height: 100%;
 	padding-top: 50px;
+
+	position: relative;
 }
+	.info-layer {
+		background-color: #ff335b;
+		color: #fff;
+		text-align: center;
+		line-height: 1.5;
+
+		overflow: hidden;
+
+		position: absolute;
+		top: 50px;
+		right: 0;
+		bottom: auto;
+		left: 0;
+		z-index: 1000;
+
+		transition: height 0.3s ease-in 0s;
+	}
+		.info-layer ._text {
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+	.info-layer.is-hidden {
+		display: none;
+	}
 header {
 	display: -webkit-flex;
 	display: flex;
@@ -79,6 +105,9 @@ h1 {
 	}
 	.map-application {
 		padding-top: 90px;
+	}
+	.info-layer {
+		top: 90px;
 	}
 }
 
