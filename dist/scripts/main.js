@@ -8,6 +8,8 @@
 const minDate = '26.06.2017';
 const maxDate = '30.09.2017';
 
+moment.locale('de');
+
 function addDataLayerToMap(map, data) {
 
   // remove active street layer, if any is set
@@ -137,7 +139,6 @@ baseLayer.addTo(map);
     defaultDate: 'today',
     dateFormat: 'd.m.Y',
     minDate: minDate,
-    maxDate: maxDate,
     enableTime: false,
     locale: {
       firstDayOfWeek: 1
@@ -174,14 +175,25 @@ baseLayer.addTo(map);
   });
 
   document.getElementById('js-prev-date').addEventListener('click', (e) => {
-    // calculate previous day
-    let newDate = '';
-    datePicker.setDate(newDate, true);
+    let value = document.getElementById('js-date-picker').value;
+    let currentDate = moment(value, 'DD.MM.YYYY');
+    if (currentDate.day() === 1) {
+      var newDate = currentDate.subtract(3, 'd');
+    } else {
+      var newDate = currentDate.subtract(1, 'd');
+    }
+    datePicker.setDate(newDate.format('DD.MM.YYYY'), true);
   });
+
   document.getElementById('js-next-date').addEventListener('click', (e) => {
-    // calculate next day
-    let newDate = '';
-    datePicker.setDate(newDate, true);
+    let value = document.getElementById('js-date-picker').value;
+    let currentDate = moment(value, 'DD.MM.YYYY');
+    if (currentDate.day() === 5) {
+      var newDate = currentDate.add(3, 'd');
+    } else {
+      var newDate = currentDate.add(1, 'd');
+    }
+    datePicker.setDate(newDate.format('DD.MM.YYYY'), true);
   });
 
   const $infolayer = document.querySelector('.js-infolayer');
