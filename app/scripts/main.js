@@ -10,6 +10,8 @@ const maxDate = '30.09.2017';
 
 moment.locale('de');
 
+const $infolayer = document.querySelector('.js-infolayer');
+
 function addDataLayerToMap(map, data) {
 
   // remove active street layer, if any is set
@@ -59,16 +61,25 @@ function addDataLayerToMap(map, data) {
 	streetLayer.addTo(map);
 }
 
-function loadDataLayer(date) {
+function loadDataLayer(date, callbacks) {
 
   var fileName = dateToFileName(date);
 
   const req = new XMLHttpRequest();
 
   req.onreadystatechange = () => {
+    if (req.readyState === 4 && req.status === 404) {
+      if (callbacks && callbacks.onError) {
+        callbacks.onError();
+      }
+      return;
+    }
     if (req.readyState === 4 && req.status === 200) {
       const data = JSON.parse(req.responseText);
       addDataLayerToMap(map, data);
+      if (callbacks && callbacks.onSuccess) {
+        callbacks.onSuccess();
+      }
     }
   };
 
@@ -89,6 +100,10 @@ function checkDate(dateObj) {
 }
 
 function showInfoLayer() {
+  // do not animate again, if already visible
+  if (!$infolayer.classList.contains('is-hidden')) {
+    return;
+  }
   let height = null;
 
   $infolayer.classList.remove('is-hidden');
@@ -101,6 +116,10 @@ function showInfoLayer() {
 }
 
 function hideInfoLayer() {
+  // do not animate again, if element is already hidden
+  if ($infolayer.classList.contains('is-hidden')) {
+    return;
+  }
   $infolayer.style.height = 0;
 
   window.setTimeout(function() {
@@ -135,67 +154,61 @@ let baseLayer = new L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.pn
 });
 baseLayer.addTo(map);
 
-  let datePicker = flatpickr('#js-date-picker', {
-    defaultDate: 'today',
-    dateFormat: 'd.m.Y',
-    minDate: minDate,
-    enableTime: false,
-    locale: {
-      firstDayOfWeek: 1
-    },
-    disable: [
-      function(date) {
-        // always disable Saturday and Sunday
-        return (date.getDay() === 6 || date.getDay() === 0);
+let datePicker = flatpickr('#js-date-picker', {
+  defaultDate: 'today',
+  dateFormat: 'd.m.Y',
+  minDate: minDate,
+  enableTime: false,
+  locale: {
+    firstDayOfWeek: 1
+  },
+  // load data for today
+  onReady: (selectedDates, dateStr, instance) => {
+    if (dateStr !== '') {
+      if (checkDate(instance.parseDate(dateStr))) {
+        loadDataLayer(dateStr);
       }
-    ],
-    // load data for today
-    onReady: (selectedDates, dateStr, instance) => {
-      if (dateStr !== '') {
-        if (checkDate(instance.parseDate(dateStr))) {
-          loadDataLayer(dateStr);
-        }
-        else {
-          showInfoLayer();
-        }
+      else {
+        showInfoLayer();
       }
-    },
-    onChange: (selectedDates, dateStr, instance) => {
-      if (dateStr !== '') {
-        if (checkDate(instance.parseDate(dateStr))) {
-          loadDataLayer(dateStr);
-          hideInfoLayer();
-        }
-        else {
-          showInfoLayer();
+    }
+  },
+  onChange: (selectedDates, dateStr, instance) => {
+    if (dateStr !== '') {
+      if (!checkDate(instance.parseDate(dateStr))) {
+        showInfoLayer();
+        if (streetLayer !== null) {
           map.removeLayer(streetLayer);
         }
+        return;
       }
+      loadDataLayer(dateStr, {
+        onSuccess: function() {
+          hideInfoLayer();
+        },
+        onError: function() {
+          showInfoLayer();
+          if (streetLayer !== null) {
+            map.removeLayer(streetLayer);
+          }
+        }
+      });
     }
-  });
+  }
+});
 
-  document.getElementById('js-prev-date').addEventListener('click', (e) => {
-    let value = document.getElementById('js-date-picker').value;
-    let currentDate = moment(value, 'DD.MM.YYYY');
-    if (currentDate.day() === 1) {
-      var newDate = currentDate.subtract(3, 'd');
-    } else {
-      var newDate = currentDate.subtract(1, 'd');
-    }
-    datePicker.setDate(newDate.format('DD.MM.YYYY'), true);
-  });
+document.getElementById('js-prev-date').addEventListener('click', (e) => {
+  let value = document.getElementById('js-date-picker').value;
+  let currentDate = moment(value, 'DD.MM.YYYY');
+  let newDate = currentDate.subtract(1, 'd');
+  datePicker.setDate(newDate.format('DD.MM.YYYY'), true);
+});
 
-  document.getElementById('js-next-date').addEventListener('click', (e) => {
-    let value = document.getElementById('js-date-picker').value;
-    let currentDate = moment(value, 'DD.MM.YYYY');
-    if (currentDate.day() === 5) {
-      var newDate = currentDate.add(3, 'd');
-    } else {
-      var newDate = currentDate.add(1, 'd');
-    }
-    datePicker.setDate(newDate.format('DD.MM.YYYY'), true);
-  });
-
-  const $infolayer = document.querySelector('.js-infolayer');
+document.getElementById('js-next-date').addEventListener('click', (e) => {
+  let value = document.getElementById('js-date-picker').value;
+  let currentDate = moment(value, 'DD.MM.YYYY');
+  let newDate = currentDate.add(1, 'd');
+  datePicker.setDate(newDate.format('DD.MM.YYYY'), true);
+});
 
 }(window, document, L));
