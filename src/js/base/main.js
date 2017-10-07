@@ -6,11 +6,11 @@
 'use strict';
 
 const minDate = '26.06.2017';
-const maxDate = '30.09.2017';
 
 moment.locale('de');
 
 const $infolayer = document.querySelector('.js-infolayer');
+const $loading = document.getElementById('js-loading');
 
 function addDataLayerToMap(map, data) {
 
@@ -64,11 +64,13 @@ function addDataLayerToMap(map, data) {
 function loadDataLayer(date, callbacks) {
 
   var fileName = dateToFileName(date);
-
   const req = new XMLHttpRequest();
+
+  showLoadingScreen();
 
   req.onreadystatechange = () => {
     if (req.readyState === 4 && req.status === 404) {
+      hideLoadingScreen();
       if (callbacks && callbacks.onError) {
         callbacks.onError();
       }
@@ -76,6 +78,7 @@ function loadDataLayer(date, callbacks) {
     }
     if (req.readyState === 4 && req.status === 200) {
       const data = JSON.parse(req.responseText);
+      hideLoadingScreen();
       addDataLayerToMap(map, data);
       if (callbacks && callbacks.onSuccess) {
         callbacks.onSuccess();
@@ -83,7 +86,7 @@ function loadDataLayer(date, callbacks) {
     }
   };
 
-  req.open('GET', './data/' + fileName + '.geojson', true);
+  req.open('GET', 'data/' + fileName + '.geojson', true);
   req.send();
 }
 
@@ -126,6 +129,14 @@ function hideInfoLayer() {
     $infolayer.classList.add('is-hidden');
     $infolayer.style.height = null;
   }, 500);
+}
+
+function showLoadingScreen() {
+  $loading.classList.remove('hidden');
+}
+
+function hideLoadingScreen() {
+  $loading.classList.add('hidden');
 }
 
 // instance of current street layer
