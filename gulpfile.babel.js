@@ -13,6 +13,7 @@ import htmlmin from 'gulp-htmlmin';
 import imagemin from 'gulp-imagemin';
 import notify from 'gulp-notify';
 import plumber from 'gulp-plumber';
+import jshint from 'gulp-jshint';
 
 import mozjpeg from 'imagemin-mozjpeg';
 import jpegtran from 'imagemin-jpegtran';
@@ -152,6 +153,8 @@ export function scripts_main_dev() {
       `${paths.scripts.src}/modules/*.js`,
       `${paths.scripts.src}/base/*.js`
     ], { sourcemaps: true })
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
     .pipe(sourcemaps.init())
     .pipe(babel(config.babel))
     .pipe(uglify())
