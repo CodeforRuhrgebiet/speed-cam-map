@@ -1,0 +1,29 @@
+header {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-flow: row wrap;
+	flex-flow: row wrap;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	-webkit-align-items: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: .5em;
+	height: 50px;
+	z-index: 9;
+	border-bottom: 1px solid #eee;
+	width:100%;
+}
+header .appName {
+	-webkit-flex-grow: 1;
+	flex-grow: 1;
+}
+
+
+@media screen and (max-width: 400px) {
+	header {
+		height: 90px;
+  }
+}
