@@ -18,6 +18,7 @@ import mozjpeg from 'imagemin-mozjpeg';
 import jpegtran from 'imagemin-jpegtran';
 import pngquant from 'imagemin-pngquant';
 
+import browserSync from 'browser-sync';
 import del from 'del';
 
 
@@ -79,6 +80,23 @@ gulp.src = function() {
     }));
 };
 
+// Browser Sync
+const server = browserSync.create();
+
+function reload(done) {
+  server.reload();
+  done();
+}
+
+function serve(done) {
+  server.init({
+    server: {
+      baseDir: './'
+    }
+  });
+  done();
+}
+
 
 
 /*
@@ -98,20 +116,8 @@ export function style_main() {
     .pipe(gulp.dest(paths.styles.dest));
 }
 
-export function style_libs() {
-  return gulp.src(`${paths.styles.src}/libs/*.scss`)
-    .pipe(sass())
-    .pipe(autoprefixer({
-        browsers: config.browsers,
-        cascade: false
-    }))
-    .pipe(cssnano())
-    .pipe(gulp.dest(paths.styles.dest));
-}
-
 const styles = gulp.series(
   style_main,
-  style_libs,
 );
 export { styles };
 
@@ -170,6 +176,13 @@ const scripts = gulp.series(
 );
 export { scripts };
 
+const scripts_dev = gulp.series(
+  deleteScripts,
+  scripts_libs,
+  scripts_main_dev
+);
+export { scripts_dev };
+
 
 // HTML
 export function html() {
@@ -213,6 +226,24 @@ export { images };
 /*
   TASKS
 */
+const watch = () => {
+  gulp.watch(`${paths.styles.src}/**/*.scss`, gulp.series(styles, reload));
+  gulp.watch([
+      `${paths.scripts.src}/modules/*.js`,
+      `${paths.scripts.src}/base/*.js`
+    ],
+    gulp.series(gulp.parallel(scripts_main, scripts_libs), reload)
+  );
+};
+
+
+const dev = gulp.series(
+  gulp.parallel(html, styles, scripts_dev),
+  serve,
+  watch
+);
+export { dev };
+
 const build = gulp.series(
   gulp.parallel(html, styles, scripts),
   images,
