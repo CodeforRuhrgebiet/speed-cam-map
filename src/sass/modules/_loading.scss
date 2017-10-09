@@ -1,0 +1,32 @@
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(359deg);
+	}
+}
+.loading {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 2;
+}
+.loading.hidden {
+	display: none;
+}
+.loading::after {
+	content: '';
+	width: 1.6rem;
+	height: 1.6rem;
+	position: absolute;
+	left: 0.8rem;
+	bottom: 0.8rem;
+	border: 0.45rem solid rgb(20,20,20);
+	border-top-color: #FF335B;
+	border-bottom-color: #FF335B;
+	border-radius: 50%;
+	animation: spin 1.2s linear infinite;
+}
