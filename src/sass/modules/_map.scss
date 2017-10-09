@@ -1,0 +1,17 @@
+.map {
+	width: 100%;
+	height: 100%;
+}
+.map-application {
+	height: 100%;
+	padding-top: 50px;
+
+	position: relative;
+}
+
+
+@media screen and (max-width: 400px) {
+	.map-application {
+		padding-top: 90px;
+  }
+}

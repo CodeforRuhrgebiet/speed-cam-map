@@ -1,0 +1,29 @@
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+::-moz-selection {
+	background-color: black;
+	color: white;
+}
+::selection {
+	background-color: black;
+	color: white;
+}
+::-moz-selection {
+	background-color: black;
+	color: white;
+}
+.group:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+body,
+html {
+	font-family: Arial, sans-serif;
+	height: 100%;
+}

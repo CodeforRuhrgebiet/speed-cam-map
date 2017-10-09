@@ -1,0 +1,21 @@
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+	background-color: #FF335B;
+	border-color: #FF335B;
+}
+
+.datePicker {
+  width: 7em;
+	border-left: 0;
+	border-right: 0;
+	padding: .5em;
+	border-radius: 0;
+	text-align: center;
+}
+
+.input-group {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+}

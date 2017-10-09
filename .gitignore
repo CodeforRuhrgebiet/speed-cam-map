@@ -1,3 +1,7 @@
 node_modules
-bower_components
 *.log
+
+# build files
+images
+scripts
+styles

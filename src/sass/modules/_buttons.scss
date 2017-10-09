@@ -1,0 +1,20 @@
+.btn-flat,
+.datePicker {
+	border: 1px solid black;
+	color: black;
+	background-color: transparent;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.btn-flat {
+	width: 2rem;
+	font-size: .5rem;
+}
+
+.btn-flat:hover,
+.btn-flat:focus {
+	background-color: black;
+	color: white;
+	outline: 0;
+}

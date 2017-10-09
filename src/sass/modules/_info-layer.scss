@@ -1,0 +1,32 @@
+.info-layer {
+  background-color: #ff335b;
+  color: #fff;
+  text-align: center;
+  line-height: 1.5;
+
+  overflow: hidden;
+
+  position: absolute;
+  top: 50px;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  z-index: 1000;
+
+  transition: height 0.3s ease-in 0s;
+}
+  .info-layer ._text {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+.info-layer.is-hidden {
+  display: none;
+}
+
+
+
+@media screen and (max-width: 400px) {
+	.info-layer {
+		top: 90px;
+	}
+}
