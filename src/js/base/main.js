@@ -86,7 +86,7 @@ function loadDataLayer(date, callbacks) {
     }
   };
 
-  req.open('GET', 'data/' + fileName + '.geojson', true);
+  req.open('GET', 'geojson/' + fileName + '.json', true);
   req.send();
 }
 
