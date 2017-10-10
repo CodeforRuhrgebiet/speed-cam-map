@@ -14,6 +14,7 @@ import imagemin from 'gulp-imagemin';
 import notify from 'gulp-notify';
 import plumber from 'gulp-plumber';
 import jshint from 'gulp-jshint';
+import rename from 'gulp-rename';
 
 import mozjpeg from 'imagemin-mozjpeg';
 import jpegtran from 'imagemin-jpegtran';
@@ -27,6 +28,10 @@ import del from 'del';
     CONFIG
 */
 const paths = {
+  geojson: {
+    src: 'src/geojson',
+    dest: './geojson'
+  },
   styles: {
     src: 'src/sass',
     dest: './styles/'
@@ -97,7 +102,6 @@ function serve(done) {
   });
   done();
 }
-
 
 
 /*
@@ -225,6 +229,12 @@ const images = gulp.series(
 );
 export { images };
 
+// Geojson
+export function geojson() {
+  return gulp.src(`${paths.geojson.src}/**/*.geojson`)
+    .pipe(rename({ extname: '.json' }))
+    .pipe(gulp.dest(paths.geojson.dest));
+}
 
 /*
   TASKS
@@ -241,14 +251,14 @@ const watch = () => {
 
 
 const dev = gulp.series(
-  gulp.parallel(html, styles, scripts_dev),
+  gulp.parallel(html, styles, scripts_dev, geojson),
   serve,
   watch
 );
 export { dev };
 
 const build = gulp.series(
-  gulp.parallel(html, styles, scripts),
+  gulp.parallel(html, styles, scripts, geojson),
   images,
 );
 export { build };
