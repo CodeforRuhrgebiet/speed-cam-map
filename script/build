@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# script/test: Builds the app
+
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+[ -z "$DEBUG" ] || set -x
+
+PROJECT_ROOT="$(cd "$(dirname "$0")"/.. && pwd)"
+export PATH="$PROJECT_ROOT/node_modules/.bin:$PATH"
+
+gulp build
