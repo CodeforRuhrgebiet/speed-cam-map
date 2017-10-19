@@ -11,7 +11,7 @@ script/build
 
 # deployment instructions here
 HOST=cfruhr@musca.uberspace.de
-DESTINATION_PATH=/var/www/virtual/cfruhr/abfallkarte.openruhr.de/
+DESTINATION_PATH=/var/www/virtual/cfruhr/blitzerkarte.openruhr.de/
 
 ssh -o StrictHostKeyChecking=no $HOST mkdir -p $DESTINATION_PATH
 rsync --progress --exclude node_modules/ --exclude script/ --exclude package.json --exclude package-lock.json --exclude style.scss -avce "ssh -o StrictHostKeyChecking=no" ./ $HOST:$DESTINATION_PATH
