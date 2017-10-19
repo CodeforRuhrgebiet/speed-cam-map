@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com:CodeforRuhrgebiet/speed-cam-map.git"
   },
+  "engines": {
+    "node": "6.11.4"
+  },
   "homepage": "https://codeforruhrgebiet.github.io/speed-cam-map/app/",
   "devDependencies": {
     "babel-core": "^6.26.0",
