@@ -1,6 +1,6 @@
 {
-  "name": "radar-map",
-  "version": "0.0.1",
+  "name": "speed-cam-map",
+  "version": "1.0.0",
   "author": "https://codefor.de/ruhrgebiet/",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   "engines": {
     "node": "6.11.4"
   },
-  "homepage": "https://codeforruhrgebiet.github.io/speed-cam-map/app/",
+  "homepage": "https://blitzerkarte.openruhr.de",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
