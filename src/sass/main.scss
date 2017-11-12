@@ -1,13 +1,20 @@
 @import 'libs/flatpickr';
 @import 'libs/leaflet';
+@import 'libs/van11y-modal';
+
+
+@import 'layout/home';
+
+@import 'elements/button';
+@import 'elements/icon';
 
 @import 'modules/root';
-
 @import 'modules/buttons';
 @import 'modules/date-picker';
 @import 'modules/header';
 @import 'modules/info-layer';
 @import 'modules/leaflet';
 @import 'modules/map';
+@import 'modules/modal';
 @import 'modules/native-elements';
 @import 'modules/loading';

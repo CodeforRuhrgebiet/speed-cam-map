@@ -247,6 +247,7 @@ const watch = () => {
     ],
     gulp.series(gulp.parallel(scripts_main, scripts_libs), reload)
   );
+  gulp.watch(`${paths.html.src}/**/*.html`, gulp.series(html));
 };
 
 
