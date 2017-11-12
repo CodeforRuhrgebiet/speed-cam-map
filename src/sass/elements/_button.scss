@@ -1,0 +1,21 @@
+.button {
+  border: 1px solid white;
+
+  background-color: white;
+
+  display: inline-block;
+}
+
+.button.-circle {
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #cecece;
+
+  text-align: center;
+
+  cursor: pointer;
+
+
+  &:hover, &:focus, &:active {
+    box-shadow: 0 0 3px 3px #cecece;
+  }
+}

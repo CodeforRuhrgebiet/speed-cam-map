@@ -1,0 +1,31 @@
+#js-modal-page {
+  height: 100%;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.simple-modal,
+.simple-animated-modal {
+  max-width: 640px;
+
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.simple-modal-title,
+.simple-animated-modal-title {
+  margin-bottom: 30px;
+}
+
+.simple-modal-close,
+.simple-animated-modal-close {
+  background-color: #ff335b;
+
+
+  &:hover, &:active {
+    background-color: black;
+  }
+}
