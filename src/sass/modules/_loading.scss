@@ -8,23 +8,20 @@
 }
 .loading {
 	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+	top: 50%;
+	left: 50%;
+  transform: translate(-1.2rem, -1.2rem);
 	z-index: 2;
 }
 .loading.hidden {
 	display: none;
 }
 .loading::after {
+  display: block;
 	content: '';
-	width: 1.6rem;
-	height: 1.6rem;
-	position: absolute;
-	left: 0.8rem;
-	bottom: 0.8rem;
-	border: 0.45rem solid rgb(20,20,20);
+	width: 2.4rem;
+	height: 2.4rem;
+	border: 0.5rem solid rgb(20,20,20);
 	border-top-color: #FF335B;
 	border-bottom-color: #FF335B;
 	border-radius: 50%;
