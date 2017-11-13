@@ -9,7 +9,10 @@
 
 .btn-flat {
 	width: 2rem;
-	font-size: .5rem;
+  svg {
+    width: 0.4rem;
+    height: auto;
+  }
 }
 
 .btn-flat:hover,
