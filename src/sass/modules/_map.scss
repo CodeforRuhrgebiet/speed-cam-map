@@ -5,14 +5,6 @@
 }
 .map-application {
 	height: 100%;
-	padding-top: 50px;
 	position: relative;
   z-index: 1;
-}
-
-
-@media screen and (max-width: 400px) {
-	.map-application {
-		padding-top: 90px;
-  }
 }

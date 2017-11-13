@@ -18,3 +18,24 @@
     transform: translate(-50%, -50%);
   }
 }
+
+header {
+  width:100%;
+  height: 4rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.map-application {
+  padding-top: 4rem;
+}
+
+@media screen and (max-width: 34rem) {
+  .map-application {
+    padding-top: 7rem;
+  }
+  header {
+    height: 7rem;
+  }
+}

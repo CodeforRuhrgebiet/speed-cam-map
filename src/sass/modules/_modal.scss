@@ -6,6 +6,10 @@
   visibility: hidden;
 }
 
+.simple-modal {
+  border: 1px solid black;
+}
+
 .simple-modal,
 .simple-animated-modal {
   max-width: 640px;
@@ -17,13 +21,14 @@
 
 .simple-modal-title,
 .simple-animated-modal-title {
-  margin-bottom: 30px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: .025rem;
 }
 
 .simple-modal-close,
 .simple-animated-modal-close {
   background-color: #ff335b;
-
 
   &:hover, &:active {
     background-color: black;
