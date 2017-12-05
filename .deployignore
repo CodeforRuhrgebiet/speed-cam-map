@@ -1,0 +1,11 @@
+.git/
+node_modules/
+script/
+.bablerc
+.gitignore
+.jshintrc
+gulpfile.*
+package.json
+package-lock.json
+style.scss
+README.md
