@@ -1,6 +1,7 @@
 .git/
 node_modules/
 script/
+src/
 .bablerc
 .gitignore
 .jshintrc
