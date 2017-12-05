@@ -30,23 +30,23 @@ import del from 'del';
 const paths = {
   geojson: {
     src: 'src/geojson',
-    dest: './geojson'
+    dest: './dist/geojson'
   },
   styles: {
     src: 'src/sass',
-    dest: './styles/'
+    dest: './dist/styles/'
   },
   scripts: {
     src: 'src/js',
-    dest: './scripts/'
+    dest: './dist/scripts/'
   },
   html: {
     src: 'src/html',
-    dest: './'
+    dest: './dist/'
   },
   images: {
     src: 'src/img',
-    dest: './images/'
+    dest: './dist/images/'
   }
 };
 
