@@ -2,8 +2,4 @@ node_modules
 *.log
 
 # build files
-/index.html
-/images/
-/scripts/
-/styles/
-/geojson/
+/dist
