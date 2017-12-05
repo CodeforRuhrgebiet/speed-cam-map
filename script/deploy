@@ -10,10 +10,11 @@ script/setup
 script/build
 
 # deployment instructions here
-HOST=cfruhr@musca.uberspace.de
-DESTINATION_PATH=/var/www/virtual/cfruhr/blitzerkarte.openruhr.de/
+DOMAIN=blitzerkarte.openruhr.de
+HOST=cfruhr@uberspace.openruhr.de
+DESTINATION_PATH=/var/www/virtual/cfruhr/$DOMAIN/
 
 ssh -o StrictHostKeyChecking=no $HOST mkdir -p $DESTINATION_PATH
-rsync --progress --exclude-from '.deployignore' -avce "ssh -o StrictHostKeyChecking=no" ./ $HOST:$DESTINATION_PATH
+rsync --progress --include=".htaccess" --exclude-from '.deployignore' --exclude=".*" -avce "ssh -o StrictHostKeyChecking=no" ./ $HOST:$DESTINATION_PATH
 
 echo "==> App is deployed!"

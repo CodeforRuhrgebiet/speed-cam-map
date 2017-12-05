@@ -4,6 +4,7 @@ script/
 .bablerc
 .gitignore
 .jshintrc
+.deployignore
 gulpfile.*
 package.json
 package-lock.json
