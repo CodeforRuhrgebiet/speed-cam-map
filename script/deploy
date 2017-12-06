@@ -14,6 +14,12 @@ DOMAIN=blitzerkarte.openruhr.de
 HOST=cfruhr@uberspace.openruhr.de
 DESTINATION_PATH=/var/www/virtual/cfruhr/$DOMAIN/
 
+# Add domain if not already there
+if ! [ $(uberspace web domain list | grep $DOMAIN) ]; then
+  uberspace web domain add $DOMAIN
+fi
+
+# Copy files
 ssh -o StrictHostKeyChecking=no $HOST mkdir -p $DESTINATION_PATH
 rsync --progress -avce "ssh -o StrictHostKeyChecking=no" ./dist/ $HOST:$DESTINATION_PATH
 
