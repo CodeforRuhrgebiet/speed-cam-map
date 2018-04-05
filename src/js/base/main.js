@@ -177,7 +177,11 @@ let datePicker = flatpickr('#js-date-picker', {
   onReady: (selectedDates, dateStr, instance) => {
     if (dateStr !== '') {
       if (checkDate(instance.parseDate(dateStr))) {
-        loadDataLayer(dateStr);
+        loadDataLayer(dateStr, {
+          onError: function() {
+            showInfoLayer();
+          }
+        });
       }
       else {
         showInfoLayer();
